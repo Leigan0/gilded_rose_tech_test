@@ -5,6 +5,7 @@ class GildedRose
 
   def update_quality
     @items.each do |item|
+      update_item_sell_in(item)
       if (item.name != 'Aged Brie') && (item.name != 'Backstage passes to a TAFKAL80ETC concert')
         if item.quality > 0
           if item.name != 'Sulfuras, Hand of Ragnaros'
@@ -15,7 +16,7 @@ class GildedRose
         if item.quality < 50
           item.quality = item.quality + 1
           if item.name == 'Backstage passes to a TAFKAL80ETC concert'
-            if item.sell_in < 11
+            if item.sell_in < 10
               item.quality = item.quality + 1 if item.quality < 50
             end
             if item.sell_in < 6
@@ -23,9 +24,6 @@ class GildedRose
             end
           end
         end
-      end
-      if item.name != 'Sulfuras, Hand of Ragnaros'
-        item.sell_in = item.sell_in - 1
       end
       if item.sell_in < 0
         if item.name != 'Aged Brie'
@@ -44,7 +42,12 @@ class GildedRose
       end
     end
   end
+
+  def update_item_sell_in(item)
+    item.sell_in -= 1 unless item.name == 'Sulfuras, Hand of Ragnaros'
+  end
 end
+
 
 class Item
   attr_accessor :name, :sell_in, :quality
