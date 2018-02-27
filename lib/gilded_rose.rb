@@ -18,29 +18,27 @@ class GildedRose
     end
   end
 
-  # def increases_quality(item)
-  #
-  # end
+  def increase_quality(item)
+    item.quality = item.quality + QUALITY_CHANGE if quality_not_max(item)
+  end
 
   def update_pass_quality(item)
     if item.sell_in < BSP_LIMIT_1
-      item.quality = item.quality + QUALITY_CHANGE if quality_not_max(item)
+      increase_quality(item)
     end
     if item.sell_in < BSP_LIMIT_2
-      item.quality = item.quality + QUALITY_CHANGE if quality_not_max(item)
+      increase_quality(item)
     end
   end
 
   def update_item_quality(item)
-    if !increases_quality_items(item)
-      decreases_quality(item)
+    unless increases_quality_items(item)
+        decreases_quality(item)
     else
-      if item.quality < MAX_QUALITY
-        item.quality = item.quality + QUALITY_CHANGE
+        increase_quality(item)
         if item.name == 'Backstage passes to a TAFKAL80ETC concert'
           update_pass_quality(item) if item.quality < MAX_QUALITY
         end
-      end
     end
 
     if item.sell_in < SELL_BY
@@ -75,7 +73,7 @@ class GildedRose
   end
 
   def quality_at_min(item)
-    item.quality < MIN_QUALITY
+    item.quality <= MIN_QUALITY
   end
 
   def quality_not_max(item)
@@ -87,6 +85,6 @@ class GildedRose
   end
 
   def decreases_quality(item)
-    item.quality = item.quality - QUALITY_CHANGE if item.quality > MIN_QUALITY
+    item.quality = item.quality - QUALITY_CHANGE unless quality_at_min(item)
   end
 end
