@@ -1,11 +1,6 @@
 class GildedRose
   MIN_QUALITY = 0
   MAX_QUALITY = 50
-  QUALITY_CHANGE = 1
-  SELL_IN_CHANGE = 1
-  SELL_BY = 0
-  BSP_LIMIT_1 = 10
-  BSP_LIMIT_2 = 6
 
   def initialize(items)
     @items = items
@@ -20,20 +15,27 @@ class GildedRose
     end
   end
 
-  def update_item_quality(item)
-    if (item.name != 'Aged Brie') && (item.name != 'Backstage passes to a TAFKAL80ETC concert')
-      item.quality = item.quality - QUALITY_CHANGE if item.quality > MIN_QUALITY
+# def increases_quality(item)
+#
+# end
 
+def update_pass_quality(item)
+  if item.sell_in < BSP_LIMIT_1
+    item.quality = item.quality + QUALITY_CHANGE if quality_not_max(item)
+  end
+  if item.sell_in < BSP_LIMIT_2
+    item.quality = item.quality + QUALITY_CHANGE if quality_not_max(item)
+  end
+end
+
+  def update_item_quality(item)
+    if !increases_quality_items(item)
+      decreases_quality(item)
     else
       if item.quality < MAX_QUALITY
         item.quality = item.quality + QUALITY_CHANGE
         if item.name == 'Backstage passes to a TAFKAL80ETC concert'
-          if item.sell_in < BSP_LIMIT_1
-            item.quality = item.quality + QUALITY_CHANGE if item.quality < MAX_QUALITY
-          end
-          if item.sell_in < BSP_LIMIT_2
-            item.quality = item.quality + QUALITY_CHANGE if item.quality < MAX_QUALITY
-          end
+          update_pass_quality(item) if item.quality < MAX_QUALITY
         end
       end
     end
@@ -48,23 +50,43 @@ class GildedRose
           item.quality = item.quality - item.quality
         end
       else
-        item.quality = item.quality + QUALITY_CHANGE if item.quality < MAX_QUALITY
+        item.quality = item.quality + QUALITY_CHANGE if quality_not_max(item)
       end
     end
   end
 
   private
 
+  QUALITY_CHANGE = 1
+  SELL_IN_CHANGE = 1
+  SELL_BY = 0
+  BSP_LIMIT_1 = 10
+  BSP_LIMIT_2 = 6
+  NO_CHANGE_ITEMS = ['Sulfuras, Hand of Ragnaros']
+  INCREASE_ITEMS = ['Aged Brie', 'Backstage passes to a TAFKAL80ETC concert']
+
   def update_item_sell_in(item)
     item.sell_in -= SELL_IN_CHANGE
   end
 
   def no_change_item(item)
-    item.name == 'Sulfuras, Hand of Ragnaros'
+    NO_CHANGE_ITEMS.include?(item.name)
   end
 
   def quality_at_min(item)
     item.quality < MIN_QUALITY
+  end
+
+  def quality_not_max(item)
+    item.quality < MAX_QUALITY
+  end
+
+  def increases_quality_items(item)
+    INCREASE_ITEMS.include?(item.name)
+  end
+
+  def decreases_quality(item)
+    item.quality = item.quality - QUALITY_CHANGE if item.quality > MIN_QUALITY
   end
 end
 

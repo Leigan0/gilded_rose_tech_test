@@ -1,7 +1,7 @@
 require 'gilded_rose'
 
 describe GildedRose do
-  let(:bspasses) { [Item.new('Backstage passes to a TAFKAL80ETC concert', 20, GildedRose::MIN_QUALITY), Item.new('Backstage passes to a TAFKAL80ETC concert', 9, GildedRose::MIN_QUALITY), Item.new('Backstage passes to a TAFKAL80ETC concert', 1, GildedRose::MIN_QUALITY), Item.new('Backstage passes to a TAFKAL80ETC concert', 5, GildedRose::MIN_QUALITY)] }
+  let(:bspasses) { [Item.new('Backstage passes to a TAFKAL80ETC concert', 20, GildedRose::MIN_QUALITY), Item.new('Backstage passes to a TAFKAL80ETC concert', 9, (GildedRose::MAX_QUALITY-2)), Item.new('Backstage passes to a TAFKAL80ETC concert', 1, (GildedRose::MIN_QUALITY)), Item.new('Backstage passes to a TAFKAL80ETC concert', 5, GildedRose::MAX_QUALITY-3)] }
   let(:gilded_rose_pass) { described_class.new(bspasses) }
 
   let(:bries) { [Item.new('Aged Brie', 1, GildedRose::MIN_QUALITY), Item.new('Aged Brie', -1, GildedRose::MIN_QUALITY), Item.new('Aged Brie', -1, GildedRose::MAX_QUALITY)] }
@@ -74,14 +74,27 @@ describe GildedRose do
           expect(bspasses[0].quality).to eq 1
         end
         it 'increases in quality by 2 each day when the days remaing is between 10-6' do
-          expect(bspasses[1].quality).to eq 2
+          expect(bspasses[1].quality).to eq GildedRose::MAX_QUALITY
         end
-        it 'increases in quality by 2 each day when the days remaing is 5 or less' do
-          expect(bspasses[3].quality).to eq 3
-        end
-        it 'increases in quality by 2 each day when the days remaing is less than 5' do
+        it 'increases in quality by 3 each day when the days remaing is 5 or less' do
           expect(bspasses[2].quality).to eq 3
         end
+        it 'increases in quality by 3 each day when the days remaining is less than 5' do
+          expect(bspasses[3].quality).to eq GildedRose::MAX_QUALITY
+        end
+
+        it 'will not increase quality above 50 when remaining days is less than 5' do
+          gilded_rose_pass.update_quality
+          gilded_rose_pass.update_quality
+          expect(bspasses[3].quality).to eq GildedRose::MAX_QUALITY
+        end
+
+        it 'will not increase quality above 50 when remaining days is less than 10' do
+          gilded_rose_pass.update_quality
+          gilded_rose_pass.update_quality
+          expect(bspasses[1].quality).to eq GildedRose::MAX_QUALITY
+        end
+
         it 'reduces quality to MIN_QUALITY when days remaing < 0' do
           2.times { gilded_rose_pass.update_quality }
           expect(bspasses[2].quality).to eq GildedRose::MIN_QUALITY
