@@ -1,5 +1,5 @@
 require 'gilded_rose'
-describe 'updates quality for each item' do
+describe '#update_quality - updates quality for each item' do
   items = [
     Item.new('5 Dexterity Vest', 10, 20),
     Item.new('Aged Brie', 2, 0),

@@ -1,6 +1,8 @@
 class GildedRose
   MIN_QUALITY = 0
   MAX_QUALITY = 50
+  QUALITY_CHANGE = 1
+  SELL_IN_CHANGE = 1
 
   def initialize(items)
     @items = items
@@ -15,18 +17,18 @@ class GildedRose
     end
   end
 
-# def increases_quality(item)
-#
-# end
+  # def increases_quality(item)
+  #
+  # end
 
-def update_pass_quality(item)
-  if item.sell_in < BSP_LIMIT_1
-    item.quality = item.quality + QUALITY_CHANGE if quality_not_max(item)
+  def update_pass_quality(item)
+    if item.sell_in < BSP_LIMIT_1
+      item.quality = item.quality + QUALITY_CHANGE if quality_not_max(item)
+    end
+    if item.sell_in < BSP_LIMIT_2
+      item.quality = item.quality + QUALITY_CHANGE if quality_not_max(item)
+    end
   end
-  if item.sell_in < BSP_LIMIT_2
-    item.quality = item.quality + QUALITY_CHANGE if quality_not_max(item)
-  end
-end
 
   def update_item_quality(item)
     if !increases_quality_items(item)
@@ -57,13 +59,11 @@ end
 
   private
 
-  QUALITY_CHANGE = 1
-  SELL_IN_CHANGE = 1
   SELL_BY = 0
   BSP_LIMIT_1 = 10
   BSP_LIMIT_2 = 6
-  NO_CHANGE_ITEMS = ['Sulfuras, Hand of Ragnaros']
-  INCREASE_ITEMS = ['Aged Brie', 'Backstage passes to a TAFKAL80ETC concert']
+  NO_CHANGE_ITEMS = ['Sulfuras, Hand of Ragnaros'].freeze
+  INCREASE_ITEMS = ['Aged Brie', 'Backstage passes to a TAFKAL80ETC concert'].freeze
 
   def update_item_sell_in(item)
     item.sell_in -= SELL_IN_CHANGE
