@@ -12,7 +12,9 @@ My first step has been to write a test suite for the code in its current state. 
 
 The tests will also allow me ensure no code is untested when refactoring the code, and provides a model to ensure all the specs are still met. At the moment I have not isolated any tests as this would have increased complexity when my goal will be to refactor the code and add a feature.
 
-As my codebase develops I plan to include unit tests for the classes.
+As my codebase develops I plan to include unit tests for the classes, which can be isolated.
+
+My approach has been to locate repeated code and pull this out to methods to reduce the amount of repeated code. I have done this in small tests and repeated tests with each change. 
 
 This is a well known kata developed by [Terry Hughes](http://iamnotmyself.com/2011/02/13/refactor-this-the-gilded-rose-kata/). This is commonly used as a tech test to assess a candidate's ability to read, refactor and extend legacy code.
 

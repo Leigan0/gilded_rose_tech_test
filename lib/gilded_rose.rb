@@ -19,41 +19,29 @@ class GildedRose
   end
 
   def update_item_quality(item)
-    unless increases_quality_item(item)
-        decreases_quality(item)
+    if increases_quality_item(item)
+      increase_quality(item)
+      update_pass_quality(item) if item.name == 'Backstage passes to a TAFKAL80ETC concert'
+      update_brie_quality(item) if item.name == 'Aged Brie'
     else
-        increase_quality(item)
-        update_pass_quality(item) if item.name == 'Backstage passes to a TAFKAL80ETC concert'
+      decreases_quality(item) if passed_sell_by(item)
+      decreases_quality(item)
     end
+  end
 
-    if item.sell_in < SELL_BY
-      if item.name != 'Aged Brie'
-        if item.name != 'Backstage passes to a TAFKAL80ETC concert'
-          if item.quality > MIN_QUALITY
-            item.quality = item.quality - QUALITY_CHANGE
-            end
-        else
-          item.quality = item.quality - item.quality
-        end
-      else
-        increase_quality(item)
-      end
-    end
+  def update_brie_quality(item)
+    increase_quality(item) if passed_sell_by(item)
   end
 
   def increase_quality(item)
-    item.quality = item.quality + QUALITY_CHANGE if quality_not_max(item)
+    item.quality += QUALITY_CHANGE if quality_not_max(item)
   end
 
   def update_pass_quality(item)
-    if item.sell_in < BSP_LIMIT_1
-      increase_quality(item)
-    end
-    if item.sell_in < BSP_LIMIT_2
-      increase_quality(item)
-    end
+    increase_quality(item) if item.sell_in < BSP_LIMIT_1
+    increase_quality(item) if item.sell_in < BSP_LIMIT_2
+    item.quality = MIN_QUALITY if passed_sell_by(item)
   end
-
 
   private
 
@@ -65,6 +53,10 @@ class GildedRose
 
   def update_item_sell_in(item)
     item.sell_in -= SELL_IN_CHANGE
+  end
+
+  def passed_sell_by(item)
+    item.sell_in < SELL_BY
   end
 
   def no_change_item(item)
@@ -84,6 +76,6 @@ class GildedRose
   end
 
   def decreases_quality(item)
-    item.quality = item.quality - QUALITY_CHANGE unless quality_at_min(item)
+    item.quality -= QUALITY_CHANGE unless quality_at_min(item)
   end
 end
