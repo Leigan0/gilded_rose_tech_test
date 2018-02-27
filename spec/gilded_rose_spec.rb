@@ -29,5 +29,21 @@ describe GildedRose do
         end
       end
     end
+    context 'item quality attribute' do
+      context 'Aged Brie items' do
+        it 'increases in quality by one for each remaining sell by date' do
+          items = [Item.new('Aged Brie', 5, 5)]
+          gilded_rose = described_class.new(items)
+          gilded_rose.update_quality
+          expect(items[0].quality).to eq 6
+        end
+        it 'increases in quality twice as fast when Aged Brie sell_in < 0' do
+          items = [Item.new('Aged Brie', -1, 5)]
+          gilded_rose = described_class.new(items)
+          gilded_rose.update_quality
+          expect(items[0].quality).to eq 7
+        end
+      end
+    end
   end
 end
