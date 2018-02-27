@@ -1,13 +1,13 @@
 require 'gilded_rose'
 describe 'updates quality for each item' do
   items = [
-    Item.new(name = '5 Dexterity Vest', sell_in = 10, quality = 20),
-    Item.new(name = 'Aged Brie', sell_in = 2, quality = 0),
-    Item.new(name = 'Elixir of the Mongoose', sell_in = 5, quality = 7),
-    Item.new(name = 'Sulfuras, Hand of Ragnaros', sell_in = 0, quality = 50),
-    Item.new(name = 'Backstage passes to a TAFKAL80ETC concert', sell_in = 15, quality = 20),
-    Item.new(name = 'Backstage passes to a TAFKAL80ETC concert', sell_in = 10, quality = 49),
-    Item.new(name = 'Backstage passes to a TAFKAL80ETC concert', sell_in = 5, quality = 49),
+    Item.new('5 Dexterity Vest', 10, 20),
+    Item.new('Aged Brie', 2, 0),
+    Item.new('Elixir of the Mongoose', 5, 7),
+    Item.new('Sulfuras, Hand of Ragnaros', 0, 50),
+    Item.new('Backstage passes to a TAFKAL80ETC concert', 15, 20),
+    Item.new('Backstage passes to a TAFKAL80ETC concert', 10, 49),
+    Item.new('Backstage passes to a TAFKAL80ETC concert', 5, 49)
   ]
   gilded_rose = GildedRose.new(items)
 
