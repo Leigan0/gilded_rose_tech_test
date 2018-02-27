@@ -18,32 +18,44 @@ class GildedRose
     end
   end
 
+  private
+
   def update_item_quality(item)
-    if increases_quality_item(item)
+    if increase_quality_item(item)
       increase_quality(item)
-      update_pass_quality(item) if item.name == 'Backstage passes to a TAFKAL80ETC concert'
-      update_brie_quality(item) if item.name == 'Aged Brie'
     else
-      decreases_quality(item) if passed_sell_by(item)
-      decreases_quality(item)
+      decrease_quality(item)
     end
   end
 
-  def update_brie_quality(item)
-    increase_quality(item) if passed_sell_by(item)
+  def increase_quality(item)
+    increases_quality(item)
+    update_pass_quality(item) if item.name == 'Backstage passes to a TAFKAL80ETC concert'
+    update_brie_quality(item) if item.name == 'Aged Brie'
   end
 
-  def increase_quality(item)
+  def increases_quality(item)
     item.quality += QUALITY_CHANGE if quality_not_max(item)
   end
 
+  def update_brie_quality(item)
+    increases_quality(item) if passed_sell_by(item)
+  end
+
   def update_pass_quality(item)
-    increase_quality(item) if item.sell_in < BSP_LIMIT_1
-    increase_quality(item) if item.sell_in < BSP_LIMIT_2
+    increases_quality(item) if item.sell_in < BSP_LIMIT_1
+    increases_quality(item) if item.sell_in < BSP_LIMIT_2
     item.quality = MIN_QUALITY if passed_sell_by(item)
   end
 
-  private
+  def decrease_quality(item)
+    decreases_quality(item) if passed_sell_by(item)
+    decreases_quality(item)
+  end
+
+  def decreases_quality(item)
+    item.quality -= QUALITY_CHANGE unless quality_at_min(item)
+  end
 
   SELL_BY = 0
   BSP_LIMIT_1 = 10
@@ -71,11 +83,8 @@ class GildedRose
     item.quality < MAX_QUALITY
   end
 
-  def increases_quality_item(item)
+  def increase_quality_item(item)
     INCREASE_ITEMS.include?(item.name)
   end
 
-  def decreases_quality(item)
-    item.quality -= QUALITY_CHANGE unless quality_at_min(item)
-  end
 end

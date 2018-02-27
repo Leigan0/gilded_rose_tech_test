@@ -14,7 +14,9 @@ The tests will also allow me ensure no code is untested when refactoring the cod
 
 As my codebase develops I plan to include unit tests for the classes, which can be isolated.
 
-My approach has been to locate repeated code and pull this out to methods to reduce the amount of repeated code. I have done this in small tests and repeated tests with each change. 
+My approach has been to locate repeated code and pull this out to methods to reduce the amount of repeated code. I have done this in small tests and repeated tests with each change.
+
+Once I pulled out the code into smaller more managable methods, I have grouped code with similar behaviour. Upon review I have noted two defined behaviours. Increase in quality based on specification, and decreases in quality. I think it would be reasonable to pull out this behaviour into two further classes. With the GildedRose class being responsible for identifying if product increase or decrease, and created new class based on this. 
 
 This is a well known kata developed by [Terry Hughes](http://iamnotmyself.com/2011/02/13/refactor-this-the-gilded-rose-kata/). This is commonly used as a tech test to assess a candidate's ability to read, refactor and extend legacy code.
 
