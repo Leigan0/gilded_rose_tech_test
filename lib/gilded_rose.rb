@@ -18,6 +18,29 @@ class GildedRose
     end
   end
 
+  def update_item_quality(item)
+    unless increases_quality_item(item)
+        decreases_quality(item)
+    else
+        increase_quality(item)
+        update_pass_quality(item) if item.name == 'Backstage passes to a TAFKAL80ETC concert'
+    end
+
+    if item.sell_in < SELL_BY
+      if item.name != 'Aged Brie'
+        if item.name != 'Backstage passes to a TAFKAL80ETC concert'
+          if item.quality > MIN_QUALITY
+            item.quality = item.quality - QUALITY_CHANGE
+            end
+        else
+          item.quality = item.quality - item.quality
+        end
+      else
+        increase_quality(item)
+      end
+    end
+  end
+
   def increase_quality(item)
     item.quality = item.quality + QUALITY_CHANGE if quality_not_max(item)
   end
@@ -31,30 +54,6 @@ class GildedRose
     end
   end
 
-  def update_item_quality(item)
-    unless increases_quality_items(item)
-        decreases_quality(item)
-    else
-        increase_quality(item)
-        if item.name == 'Backstage passes to a TAFKAL80ETC concert'
-          update_pass_quality(item) if item.quality < MAX_QUALITY
-        end
-    end
-
-    if item.sell_in < SELL_BY
-      if item.name != 'Aged Brie'
-        if item.name != 'Backstage passes to a TAFKAL80ETC concert'
-          if item.quality > MIN_QUALITY
-            item.quality = item.quality - QUALITY_CHANGE
-            end
-        else
-          item.quality = item.quality - item.quality
-        end
-      else
-        item.quality = item.quality + QUALITY_CHANGE if quality_not_max(item)
-      end
-    end
-  end
 
   private
 
@@ -80,7 +79,7 @@ class GildedRose
     item.quality < MAX_QUALITY
   end
 
-  def increases_quality_items(item)
+  def increases_quality_item(item)
     INCREASE_ITEMS.include?(item.name)
   end
 
