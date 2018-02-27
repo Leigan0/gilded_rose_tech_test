@@ -7,57 +7,66 @@ class GildedRose
   BSP_LIMIT_1 = 10
   BSP_LIMIT_2 = 6
 
-
   def initialize(items)
     @items = items
   end
 
   def update_quality
     @items.each do |item|
-      update_item_sell_in(item)
-
-      if (item.name != 'Aged Brie') && (item.name != 'Backstage passes to a TAFKAL80ETC concert')
-        if item.quality > MIN_QUALITY
-          if item.name != 'Sulfuras, Hand of Ragnaros'
-            item.quality = item.quality - QUALITY_CHANGE
-          end
-        end
-      else
-        if item.quality < MAX_QUALITY
-          item.quality = item.quality + QUALITY_CHANGE
-          if item.name == 'Backstage passes to a TAFKAL80ETC concert'
-            if item.sell_in < BSP_LIMIT_1
-              item.quality = item.quality + QUALITY_CHANGE if item.quality < MAX_QUALITY
-            end
-            if item.sell_in < BSP_LIMIT_2
-              item.quality = item.quality + QUALITY_CHANGE if item.quality < MAX_QUALITY
-            end
-          end
-        end
-      end
-      if item.sell_in < SELL_BY
-        if item.name != 'Aged Brie'
-          if item.name != 'Backstage passes to a TAFKAL80ETC concert'
-            if item.quality > MIN_QUALITY
-              if item.name != 'Sulfuras, Hand of Ragnaros'
-                item.quality = item.quality - QUALITY_CHANGE
-              end
-            end
-          else
-            item.quality = item.quality - item.quality
-          end
-        else
-          item.quality = item.quality + QUALITY_CHANGE if item.quality < MAX_QUALITY
-        end
+      unless no_change_item(item)
+        update_item_sell_in(item)
+        update_item_quality(item)
       end
     end
   end
 
+  def update_item_quality(item)
+    if (item.name != 'Aged Brie') && (item.name != 'Backstage passes to a TAFKAL80ETC concert')
+      item.quality = item.quality - QUALITY_CHANGE if item.quality > MIN_QUALITY
+
+    else
+      if item.quality < MAX_QUALITY
+        item.quality = item.quality + QUALITY_CHANGE
+        if item.name == 'Backstage passes to a TAFKAL80ETC concert'
+          if item.sell_in < BSP_LIMIT_1
+            item.quality = item.quality + QUALITY_CHANGE if item.quality < MAX_QUALITY
+          end
+          if item.sell_in < BSP_LIMIT_2
+            item.quality = item.quality + QUALITY_CHANGE if item.quality < MAX_QUALITY
+          end
+        end
+      end
+    end
+
+    if item.sell_in < SELL_BY
+      if item.name != 'Aged Brie'
+        if item.name != 'Backstage passes to a TAFKAL80ETC concert'
+          if item.quality > MIN_QUALITY
+            item.quality = item.quality - QUALITY_CHANGE
+            end
+        else
+          item.quality = item.quality - item.quality
+        end
+      else
+        item.quality = item.quality + QUALITY_CHANGE if item.quality < MAX_QUALITY
+      end
+    end
+  end
+
+  private
+
   def update_item_sell_in(item)
-    item.sell_in -= SELL_IN_CHANGE unless item.name == 'Sulfuras, Hand of Ragnaros'
+    item.sell_in -= SELL_IN_CHANGE
+  end
+
+  def no_change_item(item)
+    item.name == 'Sulfuras, Hand of Ragnaros'
+  end
+
+  def quality_at_min(item)
+    item.quality < MIN_QUALITY
   end
 end
-
 
 class Item
   attr_accessor :name, :sell_in, :quality
