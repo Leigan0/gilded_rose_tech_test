@@ -1,13 +1,13 @@
 require 'gilded_rose'
 
 describe GildedRose do
-  let(:bspasses) { [Item.new('Backstage passes to a TAFKAL80ETC concert', 20, 0), Item.new('Backstage passes to a TAFKAL80ETC concert', 9, 0), Item.new('Backstage passes to a TAFKAL80ETC concert', 1, 0), Item.new('Backstage passes to a TAFKAL80ETC concert', 5, 0)] }
+  let(:bspasses) { [Item.new('Backstage passes to a TAFKAL80ETC concert', 20, GildedRose::MIN_QUALITY), Item.new('Backstage passes to a TAFKAL80ETC concert', 9, GildedRose::MIN_QUALITY), Item.new('Backstage passes to a TAFKAL80ETC concert', 1, GildedRose::MIN_QUALITY), Item.new('Backstage passes to a TAFKAL80ETC concert', 5, GildedRose::MIN_QUALITY)] }
   let(:gilded_rose_pass) { described_class.new(bspasses) }
 
-  let(:bries) { [Item.new('Aged Brie', 1, 0), Item.new('Aged Brie', -1, 0), Item.new('Aged Brie', -1, 50)] }
+  let(:bries) { [Item.new('Aged Brie', 1, GildedRose::MIN_QUALITY), Item.new('Aged Brie', -1, GildedRose::MIN_QUALITY), Item.new('Aged Brie', -1, GildedRose::MAX_QUALITY)] }
   let(:gilded_rose_brie) { described_class.new(bries) }
 
-  let(:items) { [Item.new('foo', 1, 0), Item.new('Sulfuras, Hand of Ragnaros', 5, 5), Item.new('bar', 1, 4)] }
+  let(:items) { [Item.new('foo', 1, GildedRose::SELL_BY), Item.new('Sulfuras, Hand of Ragnaros', 5, 5), Item.new('bar', 1, 4)] }
   let(:gilded_rose) { described_class.new(items) }
 
   describe '#update_quality' do
@@ -42,8 +42,8 @@ describe GildedRose do
         gilded_rose.update_quality
         expect(items[2].quality).to eq 1
       end
-      it 'will not drop item quality be below 0' do
-        expect(items[0].quality).to eq 0
+      it 'will not drop item quality be below MIN_QUALITY' do
+        expect(items[0].quality).to eq GildedRose::MIN_QUALITY
       end
 
       context 'sell in date for Sulfuras items' do
@@ -59,11 +59,11 @@ describe GildedRose do
         it 'increases in quality by one for each remaining sell by date' do
           expect(bries[0].quality).to eq 1
         end
-        it 'increases in quality twice as fast when Aged Brie sell_in < 0' do
+        it 'increases in quality twice as fast when Aged Brie sell_in < SELL_BY' do
           expect(bries[1].quality).to eq 2
         end
-        it 'will not raise item quality above 50 theshold' do
-          expect(bries[2].quality).to eq 50
+        it 'will not raise item quality above MAX_QUALITY theshold' do
+          expect(bries[2].quality).to eq GildedRose::MAX_QUALITY
         end
       end
       context 'Backstage pass items' do
@@ -82,9 +82,9 @@ describe GildedRose do
         it 'increases in quality by 2 each day when the days remaing is less than 5' do
           expect(bspasses[2].quality).to eq 3
         end
-        it 'reduces quality to 0 when days remaing < 0' do
+        it 'reduces quality to MIN_QUALITY when days remaing < 0' do
           2.times { gilded_rose_pass.update_quality }
-          expect(bspasses[2].quality).to eq 0
+          expect(bspasses[2].quality).to eq GildedRose::MIN_QUALITY
         end
       end
     end
