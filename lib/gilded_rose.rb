@@ -1,4 +1,5 @@
 class GildedRose
+  require_relative 'item'
   MIN_QUALITY = 0
   MAX_QUALITY = 50
   QUALITY_CHANGE = 1
@@ -87,19 +88,5 @@ class GildedRose
 
   def decreases_quality(item)
     item.quality = item.quality - QUALITY_CHANGE if item.quality > MIN_QUALITY
-  end
-end
-
-class Item
-  attr_accessor :name, :sell_in, :quality
-
-  def initialize(name, sell_in, quality)
-    @name = name
-    @sell_in = sell_in
-    @quality = quality
-  end
-
-  def to_s
-    "#{@name}, #{@sell_in}, #{@quality}"
   end
 end
