@@ -1,5 +1,19 @@
 # Gilded rose tech test
 
+# Task
+
+Explained below is a tech test challenge I have attempted to solve.
+
+## Approach
+
+My aim is to solve this problem in a test driven approach. As I have been given code to work with my first aim is to understand the code and its specs.
+
+My first step has been to write a test suite for the code in its current state. I have written several unit tests which cover the requirements and include edge case. I have also included a feature test which covers several scenarios and multiple rules. Having the framework has improved my understanding of the codes purpose.
+
+The tests will not also allow me to refactor the code, and ensure that I have a model to ensure all the specs are still met. At the moment I have not isolated any tests as this would have increased complexity when my goal will be to refactor the code and add a feature.
+
+As my codebase develops I plan to consider test isolation further.
+
 This is a well known kata developed by [Terry Hughes](http://iamnotmyself.com/2011/02/13/refactor-this-the-gilded-rose-kata/). This is commonly used as a tech test to assess a candidate's ability to read, refactor and extend legacy code.
 
 Here is the text of the kata:
