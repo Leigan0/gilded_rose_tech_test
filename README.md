@@ -10,7 +10,7 @@ My aim is to solve this problem in a test driven approach. As I have been given 
 
 My first step has been to write a test suite for the code in its current state. I have written several unit tests which cover the requirements and include edge case. I have also included a feature test which covers several scenarios and multiple rules. Having the framework has improved my understanding of the codes purpose.
 
-The tests will not also allow me to refactor the code, and ensure that I have a model to ensure all the specs are still met. At the moment I have not isolated any tests as this would have increased complexity when my goal will be to refactor the code and add a feature.
+The tests will also allow me ensure no code is untested when refactoring the code, and provides a model to ensure all the specs are still met. At the moment I have not isolated any tests as this would have increased complexity when my goal will be to refactor the code and add a feature.
 
 As my codebase develops I plan to consider test isolation further.
 
