@@ -8,15 +8,27 @@ Explained below is a tech test challenge I have attempted to solve.
 
 My aim is to solve this problem in a test driven approach. As I have been given code to work with my first aim is to understand the code and its specs.
 
-My first step has been to write a test suite for the code in its current state. I have written several feature tests which cover the requirements and include edge case. I have also included a feature test which covers several scenarios and multiple rules. Having the framework has improved my understanding of the codes purpose.
+My first step has been to write a test suite for the code in its current state. I have written several feature tests which cover the requirements and include edge cases. I have also included a feature test which covers several scenarios and multiple rules. Having the framework has improved my understanding of the codes purpose.
 
 The tests will also allow me ensure no code is untested when refactoring the code, and provides a model to ensure all the specs are still met. At the moment I have not isolated any tests as this would have increased complexity when my goal will be to refactor the code and add a feature.
 
-As my codebase developed I planned to include unit tests for the classes, which can be isolated. I attempted this with doubles. However, as item cannot be changed as per the brief I am unable to delegate the responsibility of changing the quality state to item. Due to this I have chosen to have a focus on unit / integration tests to confirm my classes do not change the required functionality.  Had I been able to amend the item class, I would have considered adding a method to item to reduce its own quality attribute which would have allowed isolated tests. 
+As my codebase developed I planned to include unit tests for the classes, which can be isolated. I attempted this with doubles. However, as item cannot be changed as per the brief I am unable to delegate the responsibility of changing the quality state to item. Due to this I have chosen to have a focus on unit / integration tests to confirm my classes do not change the required functionality.  Had I been able to amend the item class, I would have considered adding a method to item to reduce its own quality attribute which would have allowed isolated tests.
 
 My approach has been to locate repeated code and pull this out to methods to reduce the amount of repeated code. I have done this in small tests and repeated tests with each change.
 
 Once I pulled out the code into smaller more managable methods, I have grouped code with similar behaviour. Upon review I have noted two defined behaviours. Increase in quality based on specification, and decreases in quality. I think it would be reasonable to pull out this behaviour into two further classes. With the GildedRose class being responsible for identifying if product increase or decrease, and created new class based on this.
+
+From reviewing the classes I am aware I have had to create specific methods dependant on item name. I have also not been able to test my classes which is an indicator that the classes are too tightly coupled to the item object, and highlights a design flaw. My classes are open to change, and need to be redesigned based on this.
+
+Had I had more time I would change the design of the program, with a view of polymorphism. I would not change the item class but create additional classes specific to each item. This would allow me to call the same method for each item and reduce the need to several repeated code methods within the classes I have.
+
+## Usage
+* Clone the repo
+* cd to repo
+* Bundle
+* run in command line
+* To run tests - rspec
+
 
 This is a well known kata developed by [Terry Hughes](http://iamnotmyself.com/2011/02/13/refactor-this-the-gilded-rose-kata/). This is commonly used as a tech test to assess a candidate's ability to read, refactor and extend legacy code.
 

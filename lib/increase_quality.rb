@@ -11,6 +11,7 @@ class IncreaseQuality
   end
 
   private
+  attr_reader :item
 
   def increases_quality
     @item.quality += GildedRose::QUALITY_CHANGE if quality_not_max
@@ -26,9 +27,6 @@ class IncreaseQuality
     item.quality = GildedRose::MIN_QUALITY if passed_sell_by
   end
 
-  private
-
-  attr_reader :item
   def passed_sell_by
     item.sell_in < GildedRose::SELL_BY
   end
