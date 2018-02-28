@@ -6,9 +6,15 @@ class DecreaseQuality
   def decrease_quality
     decreases_quality if passed_sell_by
     decreases_quality
+    update_conjured_quality if item.name == "Conjured"
   end
 
   private
+
+  def update_conjured_quality
+    decreases_quality if passed_sell_by
+    decreases_quality
+  end
 
   def decreases_quality
     @item.quality -= QUALITY_CHANGE unless quality_at_min
