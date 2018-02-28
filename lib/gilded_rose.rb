@@ -13,9 +13,10 @@ class GildedRose
   SELL_BY = 0
   QUALITY_CHANGE = 1
 
-
-  def initialize(items)
+  def initialize(increaseclass = IncreaseQuality, decreaseclass = DecreaseQuality, items)
     @items = items
+    @increaseclass = increaseclass
+    @decreaseclass = decreaseclass
   end
 
   def update_quality
@@ -31,9 +32,9 @@ class GildedRose
 
   def update_item_quality(item)
     if increase_quality_item(item)
-      IncreaseQuality.new(item).increase_quality
+      @increaseclass.new(item).increase_quality
     else
-      DecreaseQuality.new(item).decrease_quality
+      @decreaseclass.new(item).decrease_quality
     end
   end
 
@@ -51,5 +52,4 @@ class GildedRose
   def increase_quality_item(item)
     INCREASE_ITEMS.include?(item.name)
   end
-
 end

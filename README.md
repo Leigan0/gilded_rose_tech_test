@@ -12,11 +12,11 @@ My first step has been to write a test suite for the code in its current state. 
 
 The tests will also allow me ensure no code is untested when refactoring the code, and provides a model to ensure all the specs are still met. At the moment I have not isolated any tests as this would have increased complexity when my goal will be to refactor the code and add a feature.
 
-As my codebase develops I plan to include unit tests for the classes, which can be isolated.
+As my codebase developed I planned to include unit tests for the classes, which can be isolated. I attempted this with doubles. However, as item cannot be changed as per the brief I am unable to delegate the responsibility of changing the quality state to item. Due to this I have chosen to have a focus on unit / integration tests to confirm my classes do not change the required functionality.  Had I been able to amend the item class, I would have considered adding a method to item to reduce its own quality attribute which would have allowed isolated tests. 
 
 My approach has been to locate repeated code and pull this out to methods to reduce the amount of repeated code. I have done this in small tests and repeated tests with each change.
 
-Once I pulled out the code into smaller more managable methods, I have grouped code with similar behaviour. Upon review I have noted two defined behaviours. Increase in quality based on specification, and decreases in quality. I think it would be reasonable to pull out this behaviour into two further classes. With the GildedRose class being responsible for identifying if product increase or decrease, and created new class based on this. 
+Once I pulled out the code into smaller more managable methods, I have grouped code with similar behaviour. Upon review I have noted two defined behaviours. Increase in quality based on specification, and decreases in quality. I think it would be reasonable to pull out this behaviour into two further classes. With the GildedRose class being responsible for identifying if product increase or decrease, and created new class based on this.
 
 This is a well known kata developed by [Terry Hughes](http://iamnotmyself.com/2011/02/13/refactor-this-the-gilded-rose-kata/). This is commonly used as a tech test to assess a candidate's ability to read, refactor and extend legacy code.
 
