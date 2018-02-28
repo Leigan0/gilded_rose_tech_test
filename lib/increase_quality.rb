@@ -13,7 +13,7 @@ class IncreaseQuality
   private
 
   def increases_quality
-    @item.quality += QUALITY_CHANGE if quality_not_max
+    @item.quality += GildedRose::QUALITY_CHANGE if quality_not_max
   end
 
   def update_brie_quality
@@ -21,26 +21,19 @@ class IncreaseQuality
   end
 
   def update_pass_quality
-    increases_quality if item.sell_in < BSP_LIMIT_1
-    increases_quality if item.sell_in < BSP_LIMIT_2
-    item.quality = MIN_QUALITY if passed_sell_by
+    increases_quality if item.sell_in < GildedRose::BSP_LIMIT_1
+    increases_quality if item.sell_in < GildedRose::BSP_LIMIT_2
+    item.quality = GildedRose::MIN_QUALITY if passed_sell_by
   end
 
   private
 
   attr_reader :item
   def passed_sell_by
-    item.sell_in < SELL_BY
+    item.sell_in < GildedRose::SELL_BY
   end
 
   def quality_not_max
-    item.quality < MAX_QUALITY
+    item.quality < GildedRose::MAX_QUALITY
   end
-
-  BSP_LIMIT_1 = 10
-  BSP_LIMIT_2 = 6
-  MAX_QUALITY = 50
-  SELL_BY = 0
-  MIN_QUALITY = 0
-  QUALITY_CHANGE = 1
 end

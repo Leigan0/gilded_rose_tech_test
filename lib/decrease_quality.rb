@@ -17,21 +17,16 @@ class DecreaseQuality
   end
 
   def decreases_quality
-    @item.quality -= QUALITY_CHANGE unless quality_at_min
+    @item.quality -= GildedRose::QUALITY_CHANGE unless quality_at_min
   end
 
   def passed_sell_by
-    item.sell_in < SELL_BY
+    item.sell_in < GildedRose::SELL_BY
   end
 
   def quality_at_min
-    item.quality <= MIN_QUALITY
+    item.quality <= GildedRose::MIN_QUALITY
   end
 
   attr_reader :item
-
-  MIN_QUALITY = 0
-  QUALITY_CHANGE = 1
-  SELL_BY = 0
-  MIN_QUALITY = 0
 end
