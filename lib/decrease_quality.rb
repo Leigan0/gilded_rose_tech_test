@@ -6,7 +6,7 @@ class DecreaseQuality
   def decrease_quality
     decreases_quality if passed_sell_by
     decreases_quality
-    update_conjured_quality if item.name == "Conjured"
+    update_conjured_quality if item.name == 'Conjured'
   end
 
   private
